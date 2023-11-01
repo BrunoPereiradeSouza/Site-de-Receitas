@@ -3,11 +3,12 @@ from django.http import HttpResponse
 
 
 def home(request):
-    return render(request, 'recipes/home.html')
+    return render(request, 'recipes/home.html', {'name': 'Bruno Pereira'
+                                                 'de Souza'})
 
 
 def contato(request):
-    return HttpResponse('CONTATO')
+    return render(request, 'me-apague/temp.html')
 
 
 def sobre(request):
