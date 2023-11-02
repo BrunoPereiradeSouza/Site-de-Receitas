@@ -2,5 +2,5 @@ from django.shortcuts import render
 
 
 def home(request):
-    return render(request, 'recipes/home.html', {'name': 'Bruno Pereira'
-                                                 'de Souza'})
+    return render(request, 'recipes/pages/home.html', {'name': 'Bruno Pereira '
+                                                       'de Souza'})
