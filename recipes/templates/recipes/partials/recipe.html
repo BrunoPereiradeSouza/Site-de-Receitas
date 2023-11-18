@@ -3,28 +3,28 @@
         <img src="https://placehold.co/1280x720/269fe6/png" alt="Temporário">
     </div>
     <div class="recipe-title-container">
-        <h2 class="recipe-title">Lorem ipsum dolor sit amet</h2>
+        <h2 class="recipe-title">{{recipe.title}}</h2>
     </div>
 
     <div class="recipe-author">
         <span class="recipe-author-item">
             <i class="fas fa-user"></i>
-            Bruno Souza
+            {{recipe.author.first_name}} {{recipe.author.last_name}}
         </span>
         <span class="recipe-author-item">
             <i class="fas fa-calendar-alt"></i>
-            04/11/2023 às 08:15
+            {{recipe.create_at | date:"d/m/Y"}} às {{recipe.create_at | date:"H:i"}}
         </span>
         <span class="recipe-author-item">
             <a href="#">
                 <i class="fas fa-layer-group"></i>
-                <span>Café da manhã</span>
+                <span>{{recipe.category.name}}</span>
             </a>
         </span>
     </div>
 
     <div class="recipe-content">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam nulla repellendus consequatur nam error vitae maiores, officia inventore labore tempora nobis culpa, ad earum quasi nemo dolor porro quod aut?</p>
+        <p>{{recipe.description}}</p>
     </div>
 
     <div class="recipe-meta-container">
@@ -34,7 +34,7 @@
                 preparo
             </h3>
             <div class="recipe-meta-text">
-                0 minutos
+                {{recipe.preparation_time}} {{recipe.preparation_time_unit}}
             </div>
         </div>
         <div class="recipe-meta recipe-servings">
@@ -43,13 +43,13 @@
                 Porções
             </h3>
             <div class="recipe-meta-text">
-                0 Porções
+                {{recipe.servings}} {{recipe.servings_unit}}
             </div>
         </div>
     </div>
 
     <footer class="recipe-footer">
-        <a href="#" class="recipe-read-more button button-dark button-full-width">
+        <a href="recipes/3/" class="recipe-read-more button button-dark button-full-width">
             <i class="fas fa-eye"></i>
             <span>ver mais...</span>
         </a>
