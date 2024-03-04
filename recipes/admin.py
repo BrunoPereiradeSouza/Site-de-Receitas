@@ -5,6 +5,4 @@ from .models import Category, Recipe
 admin.site.register(Category)
 
 
-@admin.register(Recipe)
-class RecipeAdmin(admin.ModelAdmin):
-    ...
+admin.site.register(Recipe)
