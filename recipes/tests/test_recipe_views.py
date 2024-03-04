@@ -44,9 +44,12 @@ class RecipeViewsTest(TestCase):
             preparation_steps_is_html=False,
             is_published=True,
             category=category,
-            author=author
+            author=author,
         )
-        assert 1 == 1
+
+        response = self.client.get(reverse('recipes:home'))
+        self.assertIn(recipe.title, response.content.decode('utf-8'))
+        self.assertTrue(response.context['recipes'])
 
     def test_recipe_category_view_function_is_correct(self):
         view = resolve(reverse('recipes:category', kwargs={'category_id': 1}))
