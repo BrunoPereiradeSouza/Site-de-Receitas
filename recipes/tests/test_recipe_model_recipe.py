@@ -53,7 +53,7 @@ class RecipeModelTest(RecipeTestBase):
             msg='Recipe is_published is not False',
             )
 
-    def test_recipe_string_representation(self):
+    def test_recipe_string_representation_is_title_field(self):
         needed = 'Testing representation'
         self.recipe.title = needed
         self.recipe.full_clean()
