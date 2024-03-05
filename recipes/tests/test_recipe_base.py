@@ -35,7 +35,7 @@ class RecipeTestBase(TestCase):
             category_data=None,
             author_data=None,
             ):
-        
+
         if category_data is None:
             category_data = {}
         if author_data is None:

@@ -1,6 +1,6 @@
 from django.urls import reverse, resolve
 from recipes import views
-from .test_recipe_base import RecipeTestBase, Recipe
+from .test_recipe_base import RecipeTestBase
 
 
 class RecipeViewsTest(RecipeTestBase):
@@ -26,12 +26,26 @@ class RecipeViewsTest(RecipeTestBase):
     def test_recipe_home_template_loads_recipes(self):
         self.make_recipe()
         response = self.client.get(reverse('recipes:home'))
-        self.assertIn('Café da Manh', response.content.decode('utf-8'))
+        self.assertIn('Recipe Title', response.content.decode('utf-8'))
         self.assertTrue(response.context['recipes'])
 
     def test_recipe_category_view_function_is_correct(self):
         view = resolve(reverse('recipes:category', kwargs={'category_id': 1}))
         self.assertIs(view.func, views.category)
+
+    def test_recipe_category_view_loads_correct_template(self):
+        self.make_recipe(category_data={'name': 'Category'})
+        response = self.client.get(reverse(
+            'recipes:category', kwargs={'category_id': 1}
+            ))
+        self.assertTemplateUsed(response, 'recipes/pages/category.html')
+
+    def test_recipe_category_template_loads_recipes(self):
+        self.make_recipe(category_data={'name': 'Category'})
+        response = self.client.get(reverse(
+            'recipes:category', kwargs={'category_id': 1}
+            ))
+        self.assertIn('Recipe Title', response.content.decode('utf-8'))
 
     def test_recipe_category_view_function_return_404_if_no_recipes_found(self):  # noqa: E501
         response = self.client.get(
@@ -45,3 +59,11 @@ class RecipeViewsTest(RecipeTestBase):
     def test_recipe_detail_view_function_return_404_if_no_recipe_found(self):  # noqa: E501
         response = self.client.get(reverse('recipes:recipe', kwargs={'id': 1}))
         self.assertEqual(response.status_code, 404)
+
+    def test_recipe_detail_template_load_the_correct_recipe(self):
+        title = 'Titulo para teste'
+        self.make_recipe(title=title)
+        response = self.client.get(reverse(
+            'recipes:recipe', kwargs={'id': 1}
+            ))
+        self.assertIn(title, response.content.decode('utf-8'))
