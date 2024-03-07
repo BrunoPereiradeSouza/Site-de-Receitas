@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from .models import Recipe
+from django.http import Http404
 
 
 def home(request):
@@ -30,5 +31,8 @@ def recipe(request, id):
 
 
 def search(request):
+    querry = request.GET.get('q')
 
+    if not querry:
+        raise Http404
     return render(request, 'recipes/pages/search.html')
