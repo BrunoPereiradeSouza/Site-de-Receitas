@@ -89,13 +89,13 @@ class RecipeViewsTest(RecipeTestBase):
 
         self.assertIs(view.func, views.recipe)
 
-    def test_recipe_home_view_returns_status_code_200_ok(self):
-        response = self.client.get(reverse('recipes:home'))
-        self.assertEqual(response.status_code, 200)
+    def test_recipe_detail_view_loads_correct_template(self):
+        recipe = self.make_recipe()
+        response = self.client.get(reverse(
+            'recipes:recipe', kwargs={'id': recipe.id}
+            ))
 
-    def test_recipe_home_loads_correct_template(self):
-        response = self.client.get(reverse('recipes:home'))
-        self.assertTemplateUsed(response, 'recipes/pages/home.html')
+        self.assertTemplateUsed(response, 'recipes/pages/recipe-view.html')
 
     def test_recipe_detail_view_function_return_404_if_no_recipe_found(self):  # noqa: E501
         response = self.client.get(reverse('recipes:recipe', kwargs={'id': 1}))
@@ -124,3 +124,7 @@ class RecipeViewsTest(RecipeTestBase):
         view = resolve(reverse('recipes:search'))
 
         self.assertIs(view.func, views.search)
+
+    def test_recipe_search_view_loads_correct_template(self):
+        response = self.client.get(reverse('recipes:search'))
+        self.assertTemplateUsed(response, 'recipes/pages/search.html')
