@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from .models import Recipe
+from django.db.models import Q
 from django.http import Http404
 
 
@@ -31,10 +32,16 @@ def recipe(request, id):
 
 
 def search(request):
-    querry = request.GET.get('q', '').strip()
+    search_form = request.GET.get('q', '').strip()
+    querry = ' '.join(search_form.split())
     page_title = f'Search for "{querry}"'
     if not querry:
         raise Http404
-    context = {'querry': querry, 'page_title': page_title}
 
+    recipes = Recipe.objects.filter(
+        Q(title__icontains=querry) |
+        Q(description__icontains=querry)
+        ).order_by('-id')
+
+    context = {'querry': querry, 'page_title': page_title, 'recipes': recipes}
     return render(request, 'recipes/pages/search.html', context)
