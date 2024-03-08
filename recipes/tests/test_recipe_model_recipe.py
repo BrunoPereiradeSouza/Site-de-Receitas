@@ -12,7 +12,7 @@ class RecipeModelTest(RecipeTestBase):
         recipe = Recipe.objects.create(
             title='Recipe Title',
             description='Recipe Description',
-            slug='recipe-slug',
+            slug='recipe-title',
             preparation_time='20',
             preparation_time_unit='Minutos',
             servings='10',

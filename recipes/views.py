@@ -31,8 +31,10 @@ def recipe(request, id):
 
 
 def search(request):
-    querry = request.GET.get('q')
-
+    querry = request.GET.get('q', '').strip()
+    page_title = f'Search for "{querry}"'
     if not querry:
         raise Http404
-    return render(request, 'recipes/pages/search.html')
+    context = {'querry': querry, 'page_title': page_title}
+
+    return render(request, 'recipes/pages/search.html', context)
