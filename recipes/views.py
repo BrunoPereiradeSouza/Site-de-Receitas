@@ -39,8 +39,11 @@ def search(request):
         raise Http404
 
     recipes = Recipe.objects.filter(
-        Q(title__icontains=querry) |
-        Q(description__icontains=querry)
+        Q(
+            Q(title__icontains=querry) |
+            Q(description__icontains=querry)
+        ),
+        is_published=True
         ).order_by('-id')
 
     context = {'querry': querry, 'page_title': page_title, 'recipes': recipes}
