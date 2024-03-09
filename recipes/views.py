@@ -2,21 +2,13 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404
 from .models import Recipe
 from django.db.models import Q
 from django.http import Http404
-from django.core.paginator import Paginator
-from utils.pagination import make_pagination_range
+from utils.pagination import make_pagination
 
 
 def home(request):
     recipes = Recipe.objects.filter(is_published=True).order_by('-id')
-    paginator = Paginator(recipes, 9)
-    current_page = request.GET.get('page', 1)
-    page_obj = paginator.get_page(current_page)
 
-    pagination = make_pagination_range(
-        paginator.page_range,
-        4,
-        int(current_page)
-    )
+    page_obj, pagination = make_pagination(recipes, 9, request)
 
     return render(request, 'recipes/pages/home.html', context={
         'recipes': page_obj,
@@ -30,9 +22,14 @@ def category(request, category_id):
             category__id=category_id,
             is_published=True).order_by('-id')
             )
+
+    page_obj, pagination = make_pagination(recipes, 9, request)
+
     return render(
         request, 'recipes/pages/category.html',
-        context={'recipes': recipes}
+        context={
+            'recipes': page_obj,
+            'pagination': pagination}
         )
 
 
@@ -45,8 +42,8 @@ def recipe(request, id):
 
 
 def search(request):
-    search_form = request.GET.get('q', '').strip()
-    querry = ' '.join(search_form.split())
+    search_term = request.GET.get('q', '').strip()
+    querry = ' '.join(search_term.split())
     page_title = f'Search for "{querry}"'
     if not querry:
         raise Http404
@@ -59,5 +56,11 @@ def search(request):
         is_published=True
         ).order_by('-id')
 
-    context = {'querry': querry, 'page_title': page_title, 'recipes': recipes}
+    page_obj, pagination = make_pagination(recipes, 9, request)
+
+    context = {
+        'querry': querry, 'page_title': page_title,
+        'recipes': page_obj, 'pagination': pagination,
+        'additional_url_querry': f'&q={search_term}'
+          }
     return render(request, 'recipes/pages/search.html', context)
