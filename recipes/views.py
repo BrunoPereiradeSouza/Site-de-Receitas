@@ -15,6 +15,8 @@ def home(request):
     page_obj, pagination = make_pagination(recipes, PER_PAGE, request)
 
     messages.success(request, 'QUE LEGAL, FOI UM SUCESSO!')
+    messages.error(request, 'QUE LEGAL, FOI UM SUCESSO!')
+    messages.info(request, 'QUE LEGAL, FOI UM SUCESSO!')
 
     return render(request, 'recipes/pages/home.html', context={
         'recipes': page_obj,

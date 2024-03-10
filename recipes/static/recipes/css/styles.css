@@ -298,6 +298,12 @@ background: var(--color-primary-dark);
 }
 
 /* Messages */
+.messages-container {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: calc(var(--spacing-gutter-medium) / 2);
+}
+
 .message {
 padding: 1rem;
 border-radius: 4px;
@@ -340,4 +346,10 @@ color: var(--color-info-dark);
 border: 1px solid var(--color-debug-dark);
 background: var(--color-debug-light);
 color: var(--color-debug-dark);
+}
+
+@media (max-width: 600px) {
+    .main-content-list {
+        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+    }
 }
