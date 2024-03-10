@@ -3,13 +3,9 @@
 {% block title %}Home |{% endblock title %}
 
 {% block content %}
-{% if messages %}
-    <div class="main-content center container">
-        {% for message in messages %}
-            {{ message }}
-        {% endfor %}
-    </div>
-{% endif %}
+
+{% include 'recipes/partials/messages.html' %}
+
 <div class="main-content main-content-list container center m-y">
     {% for recipe in recipes %}
         {% include 'recipes/partials/recipe.html' %}
