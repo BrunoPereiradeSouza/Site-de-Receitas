@@ -19,4 +19,3 @@ def register_create(request):
     form = RegisterForm(POST)
 
     return redirect('authors:register')
-
