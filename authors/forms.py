@@ -36,11 +36,35 @@ class RegisterForm(forms.ModelForm):
         add_placeholer(self.fields['password'], 'Your password')
         add_placeholer(self.fields['password2'], 'Repeat your password')
 
+    first_name = forms.CharField(
+        widget=forms.TextInput(),
+        error_messages={
+            'required': 'First name must not be empty'
+        },
+        label='First name'
+    )
+
+    last_name = forms.CharField(
+        widget=forms.TextInput(),
+        error_messages={
+            'required': 'Last name must not be empty'
+        },
+        label='Last name'
+    )
+
+    email = forms.EmailField(
+        widget=forms.EmailInput(),
+        error_messages={
+            'required': 'E-mail must not be empty'
+        },
+        help_text=('the e-mail must be valid.'),
+        label='E-mail'
+    )
+
     password = forms.CharField(
-        required=True,
         widget=forms.PasswordInput(),
         error_messages={
-            'required': 'Password mut not be empty'
+            'required': 'Password must not be empty'
         },
         help_text=(
             'Password must have at least one uppercase letter, one lowercase'
@@ -51,9 +75,11 @@ class RegisterForm(forms.ModelForm):
     )
 
     password2 = forms.CharField(
-        required=True,
         widget=forms.PasswordInput(),
-        label='Password2'
+        label='Password2',
+        error_messages={
+            'required': 'Please, repeat your password'
+        },
     )
 
     class Meta:
@@ -69,15 +95,6 @@ class RegisterForm(forms.ModelForm):
         # serve para definir o nome que será exibido no label de cada campo
         labels = {
             'username': 'Username',
-            'first_name': 'First name',
-            'last_name': 'Last name',
-            'email': 'E-mail',
-            
-        }
-
-        # Definir mensagens de ajuda nos campos
-        help_texts = {
-            'email': 'the e-mail must be valid.',
         }
 
         # Definir mensagens de erro nos campos
@@ -97,7 +114,7 @@ class RegisterForm(forms.ModelForm):
                 'password and password2 must be equal',
                 code='invalid'
             )
-            
+  
             raise ValidationError({
                 'password': password_confirmation_error,
                 'password2': [
