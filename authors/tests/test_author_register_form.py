@@ -22,8 +22,9 @@ class AuthorRegisterFormUnitTest(TestCase):
         self.assertEqual(placeholder, placeholder_field)
 
     @parameterized.expand([
-        ('username', 'Obrigatório. 150 caracteres ou menos. '
-         'Letras, números e @/./+/-/_ apenas.'
+        ('username', 'Username must have letters, numbers or one of'
+                     ' those @.+-_. The lenght should between 4 and 150'
+                     'characters.'
          ),
         ('email', 'the e-mail must be valid.'),
         ('password', 'Password must have at least one uppercase letter'
@@ -64,7 +65,7 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         return super().setUp()
 
     @parameterized.expand([
-        ('username', 'This field must not be empty'),
+        ('username', 'Password must not be empty'),
         ('first_name', 'First name must not be empty'),
         ('last_name', 'Last name must not be empty'),
         ('email', 'E-mail must not be empty'),
@@ -78,3 +79,23 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
 
         self.assertIn(msg, response.content.decode('utf-8'))
         self.assertIn(msg, response.context['form'].errors.get(field))
+
+    def test_username_field_min_length_should_be_4(self):
+        self.form_data['username'] = 'eu'
+        error_msg = ('Username must have at least 4 characters')
+
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        self.assertIn(error_msg, response.content.decode('utf-8'))
+        self.assertIn(error_msg, response.context['form'].errors.get('username'))  # Noqa: E501
+
+    def test_username_field_max_length_should_be_150(self):
+        self.form_data['username'] = 'eu' * 76
+        error_msg = ('Username cannot have more than 150 characters')
+
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        self.assertIn(error_msg, response.content.decode('utf-8'))
+        self.assertIn(error_msg, response.context['form'].errors.get('username'))  # Noqa: E501

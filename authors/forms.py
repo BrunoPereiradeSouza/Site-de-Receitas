@@ -36,6 +36,20 @@ class RegisterForm(forms.ModelForm):
         add_placeholer(self.fields['password'], 'Your password')
         add_placeholer(self.fields['password2'], 'Repeat your password')
 
+    username = forms.CharField(
+        error_messages={
+            'required': 'Password must not be empty',
+            'min_length': 'Username must have at least 4 characters',
+            'max_length': 'Username cannot have more than 150 characters'
+        },
+        label='Username',
+        help_text=('Username must have letters, numbers or one of'
+                   ' those @.+-_. The lenght should between 4 and 150'
+                   'characters.'
+                   ),
+        min_length=4, max_length=150
+    )
+
     first_name = forms.CharField(
         widget=forms.TextInput(),
         error_messages={
@@ -92,18 +106,6 @@ class RegisterForm(forms.ModelForm):
             'password',
               ]
 
-        # serve para definir o nome que será exibido no label de cada campo
-        labels = {
-            'username': 'Username',
-        }
-
-        # Definir mensagens de erro nos campos
-        error_messages = {
-            'username': {
-                'required': 'This field must not be empty',
-            }
-        }
-
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
@@ -114,7 +116,7 @@ class RegisterForm(forms.ModelForm):
                 'password and password2 must be equal',
                 code='invalid'
             )
-  
+
             raise ValidationError({
                 'password': password_confirmation_error,
                 'password2': [
