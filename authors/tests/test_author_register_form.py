@@ -99,3 +99,16 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
 
         self.assertIn(error_msg, response.content.decode('utf-8'))
         self.assertIn(error_msg, response.context['form'].errors.get('username'))  # Noqa: E501
+
+    def test_password_have_lower_upper_case_letters_and_numbers(self):
+        self.form_data['password'] = 'abc123'
+        error_mgs = ('Password must have at least one uppercase letter, '
+                     'one lowercase letter and one number. The length should'
+                     ' be at least 8 characters')
+
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        self.assertIn(error_mgs, response.context['form'].errors.get('password'))  # Noqa: E501
+    
+
