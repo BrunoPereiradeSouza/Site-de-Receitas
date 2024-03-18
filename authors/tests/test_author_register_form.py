@@ -51,7 +51,6 @@ class AuthorRegisterFormUnitTest(TestCase):
 
         self.assertEqual(label, current_label)
 
-
 class AuthorRegisterFormIntegrationTest(DjangoTestCase):
     def setUp(self) -> None:
         self.form_data = {
@@ -125,3 +124,9 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
 
         self.assertNotIn(error_msg, response2.context['form'].errors)
         self.assertNotIn(error_msg, response2.content.decode('utf-8'))
+
+    def test_send_get_request_to_create_view_returns_404(self):
+        url = reverse('authors:create')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
