@@ -51,6 +51,7 @@ class AuthorRegisterFormUnitTest(TestCase):
 
         self.assertEqual(label, current_label)
 
+
 class AuthorRegisterFormIntegrationTest(DjangoTestCase):
     def setUp(self) -> None:
         self.form_data = {
