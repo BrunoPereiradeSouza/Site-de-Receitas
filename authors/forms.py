@@ -38,7 +38,7 @@ class RegisterForm(forms.ModelForm):
 
     username = forms.CharField(
         error_messages={
-            'required': 'Password must not be empty',
+            'required': 'Username must not be empty',
             'min_length': 'Username must have at least 4 characters',
             'max_length': 'Username cannot have more than 150 characters'
         },
@@ -72,7 +72,7 @@ class RegisterForm(forms.ModelForm):
             'required': 'E-mail must not be empty'
         },
         help_text=('the e-mail must be valid.'),
-        label='E-mail'
+        label='E-mail',
     )
 
     password = forms.CharField(
@@ -114,6 +114,8 @@ class RegisterForm(forms.ModelForm):
             raise ValidationError(
                 'email already exists',
             )
+
+        return email
 
     def clean(self):
         cleaned_data = super().clean()

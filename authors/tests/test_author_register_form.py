@@ -99,3 +99,46 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
 
         self.assertIn(error_msg, response.content.decode('utf-8'))
         self.assertIn(error_msg, response.context['form'].errors.get('username'))  # Noqa: E501
+
+    def test_password_have_lower_upper_case_letters_and_numbers(self):
+        self.form_data['password'] = 'abc123'
+        error_mgs = ('Password must have at least one uppercase letter, '
+                     'one lowercase letter and one number. The length should'
+                     ' be at least 8 characters')
+
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        self.assertIn(error_mgs, response.context['form'].errors.get('password'))  # Noqa: E501
+
+    def test_password_and_password2_must_be_equal(self):
+        self.form_data['password'] = 'Acd321212'
+        error_msg = 'password and password2 must be equal'
+
+        url = reverse('authors:create')
+        response1 = self.client.post(url, data=self.form_data, follow=True)
+
+        self.assertIn(error_msg, response1.context['form'].errors.get('password'))  # Noqa: E501
+
+        self.form_data['password2'] = 'Acd321212'
+        response2 = self.client.post(url, data=self.form_data, follow=True)
+
+        self.assertNotIn(error_msg, response2.context['form'].errors)
+        self.assertNotIn(error_msg, response2.content.decode('utf-8'))
+
+    def test_send_get_request_to_create_view_returns_404(self):
+        url = reverse('authors:create')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_email_field_returns_error_if_email_already_exists(self):
+        url = reverse('authors:create')
+
+        self.client.post(url, data=self.form_data, follow=True)
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        msg = 'email already exists'
+
+        self.assertIn(msg, response.context['form'].errors.get('email'))
+        self.assertIn(msg, response.content.decode('utf-8'))
