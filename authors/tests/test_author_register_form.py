@@ -65,7 +65,7 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         return super().setUp()
 
     @parameterized.expand([
-        ('username', 'Password must not be empty'),
+        ('username', 'Username must not be empty'),
         ('first_name', 'First name must not be empty'),
         ('last_name', 'Last name must not be empty'),
         ('email', 'E-mail must not be empty'),
@@ -77,8 +77,8 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         url = reverse('authors:create')
         response = self.client.post(url, data=self.form_data, follow=True)
 
-        self.assertIn(msg, response.content.decode('utf-8'))
         self.assertIn(msg, response.context['form'].errors.get(field))
+        self.assertIn(msg, response.content.decode('utf-8'))
 
     def test_username_field_min_length_should_be_4(self):
         self.form_data['username'] = 'eu'
