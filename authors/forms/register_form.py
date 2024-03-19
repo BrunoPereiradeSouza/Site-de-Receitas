@@ -1,40 +1,19 @@
 from django import forms
 from django.contrib.auth.models import User
+from utils import django_forms
 from django.core.exceptions import ValidationError
-import re
-
-
-def add_attr(field, attr_name, attr_new_val):
-    existing_attr = field.widget.attrs.get(attr_name, '')
-    field.widget.attrs[attr_name] = f'{existing_attr} {attr_new_val}'.strip()
-
-
-def add_placeholer(field, placeholder_val):
-    add_attr(field, 'placeholder', placeholder_val)
-
-
-def strong_password(password):
-    regex = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$')
-
-    if not regex.match(password):
-        raise ValidationError((
-            'Password must have at least one uppercase letter, one lowercase'
-            ' letter and one number. The length should be at least 8 characters'  # Noqa:E501
-        ),
-            code='invalid'
-        )
 
 
 class RegisterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        add_placeholer(self.fields['username'], 'Your username')
-        add_placeholer(self.fields['email'], 'Your e-mail')
-        add_placeholer(self.fields['first_name'], 'Ex.: John')
-        add_placeholer(self.fields['last_name'], 'Ex.: Doe')
-        add_placeholer(self.fields['password'], 'Your password')
-        add_placeholer(self.fields['password2'], 'Repeat your password')
+        django_forms.add_placeholer(self.fields['username'], 'Your username')
+        django_forms.add_placeholer(self.fields['email'], 'Your e-mail')
+        django_forms.add_placeholer(self.fields['first_name'], 'Ex.: John')
+        django_forms.add_placeholer(self.fields['last_name'], 'Ex.: Doe')
+        django_forms.add_placeholer(self.fields['password'], 'Your password')
+        django_forms.add_placeholer(self.fields['password2'], 'Repeat your password')  # Noqa: E501
 
     username = forms.CharField(
         error_messages={
@@ -84,7 +63,7 @@ class RegisterForm(forms.ModelForm):
             'Password must have at least one uppercase letter, one lowercase'
             ' letter and one number. The length should be at least 8 characters'  # Noqa: E501
         ),
-        validators=[strong_password],
+        validators=[django_forms.strong_password],
         label='Password'
     )
 
