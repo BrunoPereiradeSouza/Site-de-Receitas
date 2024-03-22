@@ -40,4 +40,6 @@ def login_view(request):
 
 
 def login_create(request):
+    if not request.POST:
+        raise Http404
     return render(request, 'authors/pages/login.html')
