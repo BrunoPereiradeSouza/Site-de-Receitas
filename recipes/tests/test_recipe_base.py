@@ -56,6 +56,7 @@ class RecipeMixin:
         recipes = []
         for i in range(qtd):
             recipe = self.make_recipe(
+                title=f'Recipe title {i}',
                 slug='recipe-' + str(i),
                 author_data={'username': str(i)}
                 )
