@@ -46,12 +46,7 @@ class RecipeHomeViewTest(RecipeTestBase):
         self.assertIn('<h1>No recipes found here 😢</h1>', content)
 
     def test_recipe_home_is_paginated(self):
-        for i in range(9):
-            recipe = self.make_recipe(
-                        slug='recipe-' + str(i),
-                        author_data={'username': str(i)}
-                        )
-            recipe.save()
+        self.make_recipe_in_batch(9)
 
         with patch('recipes.views.PER_PAGE', new=3):
             response = self.client.get(reverse('recipes:home'))
@@ -63,5 +58,4 @@ class RecipeHomeViewTest(RecipeTestBase):
 
     def test_invalid_page_uses_page_one(self):
         response = self.client.get(reverse('recipes:home') + '?page=2a')
-
         self.assertEqual(response.context['recipes'].number, 1)
