@@ -21,4 +21,3 @@ def strong_password(password):
         ),
             code='invalid'
         )
-

@@ -1,23 +1,11 @@
 from .base import AuthorsBaseFunctionalTest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from time import sleep
+import pytest
 
 
+@pytest.mark.functional_test
 class AuthorsRegisterFunctionalTest(AuthorsBaseFunctionalTest):
-    def get_by_placeholder(self, web_element, placeholder):
-        return web_element.find_element(
-            By.XPATH,
-            f'//input[@placeholder="{placeholder}"]'
-        )
-
-    def get_form(self):
-        form = self.browser.find_element(
-            By.XPATH,
-            '/html/body/main/div[2]/form'
-        )
-        return form
-
     def fill_form_dummy_data(self, form):
         fields = form.find_elements(By.TAG_NAME, 'input')
 
@@ -47,7 +35,6 @@ class AuthorsRegisterFunctionalTest(AuthorsBaseFunctionalTest):
             form = self.get_form()
 
             self.assertIn(error_message, form.text)
-            sleep(5)
         self.form_field_test_with_callback(callback)
 
     def test_empty_first_name_error_message(self):
@@ -96,26 +83,10 @@ class AuthorsRegisterFunctionalTest(AuthorsBaseFunctionalTest):
             form = self.get_form()
 
             self.assertIn('password and password2 must be equal', form.text)
-            sleep(5)
         self.form_field_test_with_callback(callback)
 
-    def test_form_is_valid(self):
-        self.browser.get(self.live_server_url + '/authors/register/')
-        form = self.get_form()
-
-        first_name = self.get_by_placeholder(form, 'Ex.: John')
-        first_name.send_keys('First Name')
-        last_name = self.get_by_placeholder(form, 'Ex.: Doe')
-        last_name.send_keys('Last Name')
-        username = self.get_by_placeholder(form, 'Your username')
-        username.send_keys('MyUsername')
-        email = self.get_by_placeholder(form, 'Your e-mail')
-        email.send_keys('Email@email.com')
-        password = self.get_by_placeholder(form, 'Your password')
-        password.send_keys('Abc123456')
-        password2 = self.get_by_placeholder(form, 'Repeat your password')
-        password2.send_keys('Abc123456')
-        form.submit()
+    def test_form_register_user_sucessfully(self):
+        self.register_valid_user()
 
         self.assertIn(
             'Your user is created, please log in.',
