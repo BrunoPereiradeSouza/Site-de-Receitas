@@ -85,3 +85,16 @@ class AuthorsRegisterFunctionalTest(AuthorsBaseFunctionalTest):
             'Repeat your password',
             'Please, repeat your password'
         )
+
+    def test_password_and_password2_must_be_equal_error_message(self):
+        def callback(form):
+            password = self.get_by_placeholder(form, 'Your password')
+            password.send_keys(' PassWord1')
+            password2 = self.get_by_placeholder(form, 'Repeat your password')
+            password2.send_keys(' PassWord2')
+            password2.send_keys(Keys.ENTER)
+            form = self.get_form()
+
+            self.assertIn('password and password2 must be equal', form.text)
+            sleep(5)
+        self.form_field_test_with_callback(callback)
