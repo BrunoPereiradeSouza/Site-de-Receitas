@@ -42,3 +42,27 @@ class AuthorLoginFunctionalTest(AuthorsBaseFunctionalTest):
             self.browser.find_element(By.TAG_NAME, 'body').text
             )
         self.sleep()
+
+    def test_form_invalid_username_or_password(self):
+        # Usuário abre a página
+        self.browser.get(self.live_server_url + reverse('authors:login'))
+
+        # Usuário vê o formulário de login
+        form = self.browser.find_element(By.CLASS_NAME, 'main-form')
+        username = self.get_by_placeholder(form, 'Type your username')
+        password = self.get_by_placeholder(form, 'Type your password')
+
+        # Usuário ver o input de username e digita um usuário inválido
+        username.send_keys(' ' * 10)
+
+        # Usuário ver o input de password e digita uma senha inválida
+        password.send_keys(' ' * 10)
+
+        # Usuário confirma o login
+        form.submit()
+
+        # Usuário vê mensagem de erro
+        self.assertIn(
+            'invalid username or password',
+            self.browser.find_element(By.TAG_NAME, 'body').text
+        )
