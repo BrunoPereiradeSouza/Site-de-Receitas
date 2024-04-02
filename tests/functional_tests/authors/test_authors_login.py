@@ -67,7 +67,7 @@ class AuthorLoginFunctionalTest(AuthorsBaseFunctionalTest):
             self.browser.find_element(By.TAG_NAME, 'body').text
         )
 
-    def test_form_invalid_credentials(self):
+    def test_form_login_invalid_credentials(self):
         # Usuário abre a página
         self.browser.get(self.live_server_url + reverse('authors:login'))
 
@@ -76,16 +76,16 @@ class AuthorLoginFunctionalTest(AuthorsBaseFunctionalTest):
         username = self.get_by_placeholder(form, 'Type your username')
         password = self.get_by_placeholder(form, 'Type your password')
 
-        # Usuário ver o input de username e digita um usuário inválido
+        # Usuário ver o input de username e digita um usuário que não existe
         username.send_keys('Usuário123')
 
-        # Usuário ver o input de password e digita uma senha inválida
+        # Usuário ver o input de password e digita uma senha que não existe
         password.send_keys('Senha12345')
 
         # Usuário confirma o login
         form.submit()
 
-        # Usuário vê mensagem de erro
+        # Usuário vê uma mensagem de erro na tela
         self.assertIn(
             'Invalid credentials',
             self.browser.find_element(By.TAG_NAME, 'body').text
