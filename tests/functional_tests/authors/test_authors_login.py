@@ -7,7 +7,7 @@ from django.urls import reverse
 @pytest.mark.functional_test
 class AuthorLoginFunctionalTest(AuthorsBaseFunctionalTest):
 
-    def test_the_test(self):
+    def test_login_user_is_sucessfully(self):
         self.register_valid_user()
 
         # Usuário abre a página
@@ -31,3 +31,14 @@ class AuthorLoginFunctionalTest(AuthorsBaseFunctionalTest):
             'Your are logged in with MyUsername',
             self.browser.find_element(By.TAG_NAME, 'body').text
         )
+
+    def test_login_create_raises_404_if_not_POST_method(self):
+        self.browser.get(
+            self.live_server_url + reverse('authors:login_create')
+        )
+
+        self.assertIn(
+            'Not Found',
+            self.browser.find_element(By.TAG_NAME, 'body').text
+            )
+        self.sleep()
