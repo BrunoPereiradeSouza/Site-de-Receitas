@@ -399,6 +399,11 @@ background: var(--color-debug-light);
 color: var(--color-debug-dark);
 }
 
+/* Authors */
+.login-message {
+    margin: 1rem 0;
+}
+
 @media (max-width: 600px) {
     .main-content-list {
         grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
