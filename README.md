@@ -17,3 +17,11 @@ Um Site que permite o usuário postar as suas receitas preferidas. Após anális
 ## Aprendizado
 
 Através desse projeto, foi possível aprimorar conhecimentos do framework Django, bem como do Desenvolvimento Web.
+Dentre eles:
+* Herança de templates, partials e outras particularidades do template engine;
+* Testes Unitários e de Integração com Pytest e Unittest;
+* Testes Funcionais com Selenium;
+* Validações de formulários;
+* Autenticação de usuários e criação de sistemas de login e logout;
+* Filtragem em consultas ao banco de dados;
+* Criação de funções(módulos) para reaproveitamento de código.
