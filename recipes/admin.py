@@ -14,4 +14,7 @@ class RecipeAdmin(admin.ModelAdmin):
                    'preparation_steps_is_html')
     list_per_page = 10
     list_editable = ('is_published',)
-    ordering = ( '-id',)
+    ordering = ('-id',)
+    prepopulated_fields = {
+        'slug': ('title',)
+    }

@@ -404,6 +404,22 @@ color: var(--color-debug-dark);
     margin: 1rem 0;
 }
 
+.authors-dashboard-container {
+    max-width: 64rem;
+    text-align: left;
+    padding: var(--spacing-gutter-medium);
+    margin: 0 auto;
+}
+
+.authors-dashboard-container a {
+    text-decoration: none;
+}
+
+.authors-dashboard-container h3, p, ul {
+    margin: 1rem 0;
+    list-style: none;
+}
+
 @media (max-width: 600px) {
     .main-content-list {
         grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
