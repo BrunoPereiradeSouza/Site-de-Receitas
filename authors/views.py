@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from recipes.models import Recipe
+from .forms.recipe_form import AuthorRecipeForm
 
 
 def register_view(request):
@@ -90,12 +91,17 @@ def dashboard(request):
 
 @login_required(login_url='authors:login', redirect_field_name='next')
 def dashboard_recipe_edit(request, id):
-    recipe = Recipe.objects.filter(
+    recipe = Recipe.objects.get(
         author=request.user, is_published=False, id=id
     )
 
-    if not recipe:
-        raise Http404
+    if request.method == 'POST':
+        form = AuthorRecipeForm(request.POST or None, instance=recipe)
+        if form.is_valid():
+            form.save()
+    else:
+        form = AuthorRecipeForm(instance=recipe)
+
     return render(request, 'authors/pages/dashboard_recipe.html', context={
-        'recipe': recipe
+        'form': form
     })
