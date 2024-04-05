@@ -59,6 +59,15 @@ body {
     color: var(--color-dark-text);
 }
 
+img {
+    max-width: 100%;
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-headings);
 }
@@ -332,7 +341,9 @@ background: var(--color-primary-dark);
     color: var(--color-white);
 }
 
-.form-content input {
+.form-content input,
+.form-content select,
+.form-content textarea {
     width: 100%;
     padding: 1rem;
     border-radius: .4rem;
@@ -354,7 +365,6 @@ background: var(--color-primary-dark);
 
 .span-2 {
     grid-column: span 2;
-    width: 100%;
 }
 
 /* Messages */
