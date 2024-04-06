@@ -11,6 +11,10 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path(
+        'dashboard/recipe/<int:id>/delete/',
+        views.dashboard_recipe_delete,
+        name='dashboard_recipe_delete'),
+    path(
         'dashboard/recipe/create/',
         views.dashboard_recipe_create,
         name="dashboard_recipe_create"
