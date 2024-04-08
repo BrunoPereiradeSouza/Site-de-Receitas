@@ -8,16 +8,16 @@ from django.http import Http404
 
 
 class DashboardRecipe(View):
-    def get_recipe(self, id):
+    def get_recipe(self, id=None):
         recipe = None
 
-        if id:
+        if id is not None:
             recipe = Recipe.objects.get(
                 author=self.request.user, is_published=False, id=id
             )
 
-        if not recipe:
-            raise Http404
+            if not recipe:
+                raise Http404
 
         return recipe
 
@@ -27,13 +27,13 @@ class DashboardRecipe(View):
             context={'form': form}
         )
 
-    def get(self, request, id):
+    def get(self, request, id=None):
         recipe = self.get_recipe(id)
         form = AuthorRecipeForm(instance=recipe)
 
         return self.render_recipe(form)
 
-    def post(self, request, id):
+    def post(self, request, id=None):
         recipe = self.get_recipe(id)
 
         form = AuthorRecipeForm(
@@ -52,7 +52,7 @@ class DashboardRecipe(View):
 
             messages.success(request, 'Sua receita foi salva com sucesso!')
             return redirect(reverse(
-                'authors:dashboard_recipe_edit', args=(id,)
+                'authors:dashboard_recipe_edit', args=(recipe.id,)
                 )
             )
 

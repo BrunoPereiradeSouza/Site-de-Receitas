@@ -6,7 +6,6 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from recipes.models import Recipe
-from authors.forms import AuthorRecipeForm
 
 
 def register_view(request):
@@ -83,60 +82,9 @@ def logout_view(request):
 def dashboard(request):
     recipes = Recipe.objects.filter(
         author=request.user, is_published=False
-    )
+    ).order_by('-id')
     return render(request, 'authors/pages/dashboard.html', context={
         'recipes': recipes
-    })
-
-
-@login_required(login_url='authors:login', redirect_field_name='next')
-def dashboard_recipe_create(request):
-    if request.method == 'POST':
-        form = AuthorRecipeForm(request.POST, request.FILES)
-        if form.is_valid():
-            recipe = form.save(commit=False)
-
-            recipe.author = request.user
-            recipe.preparation_steps_is_html = False
-            recipe.is_published = False
-            recipe.save()
-            messages.success(request, 'Receita criada com sucesso!')
-            return redirect(reverse('authors:dashboard'))
-    else:
-        form = AuthorRecipeForm()
-
-    return render(request, 'authors/pages/dashboard_recipe.html', context={
-        'form': form
-    })
-
-
-@login_required(login_url='authors:login', redirect_field_name='next')
-def dashboard_recipe_edit(request, id):
-    recipe = Recipe.objects.get(
-        author=request.user, is_published=False, id=id
-    )
-
-    if request.method == 'POST':
-        form = AuthorRecipeForm(request.POST or None, request.FILES or None,
-                                instance=recipe)
-        if form.is_valid():
-            recipe = form.save(commit=False)
-
-            recipe.author = request.user
-            recipe.preparation_steps_is_html = False
-            recipe.is_published = False
-            recipe.save()
-
-            messages.success(request, 'Sua receita foi salva com sucesso!')
-            return redirect(reverse(
-                'authors:dashboard_recipe_edit', args=(id,)
-                )
-            )
-    else:
-        form = AuthorRecipeForm(instance=recipe)
-
-    return render(request, 'authors/pages/dashboard_recipe.html', context={
-        'form': form
     })
 
 
