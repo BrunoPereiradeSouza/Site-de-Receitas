@@ -28,3 +28,7 @@ class RecipeListViewBase(ListView):
         context.update({'recipes': page_obj, 'pagination': pagination})
 
         return context
+
+
+class RecipeListViewHome(RecipeListViewBase):
+    template_name = 'recipes/pages/home.html'
