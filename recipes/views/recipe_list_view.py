@@ -1,4 +1,4 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from recipes.models import Recipe
 from django.http import Http404
 from utils.pagination import make_pagination
@@ -95,4 +95,19 @@ class RecipeListViewSearch(RecipeListViewBase):
                 'querry': querry
             }
         )
+        return context
+
+
+class RecipeDetailView(DetailView):
+    model = Recipe
+    context_object_name = 'recipe'
+    template_name = 'recipes/pages/recipe-view.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context.update({
+            'is_detail_page': True
+            }
+        )
+
         return context
