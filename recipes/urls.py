@@ -6,6 +6,7 @@ app_name = 'recipes'
 urlpatterns = [
     path('', views.RecipeListViewHome.as_view(), name='home'),
     path('recipes/search/', views.RecipeListViewSearch.as_view(), name='search'),  # noqa: E501
+    path('recipes/tags/<slug:slug>/', views.RecipeListViewTag.as_view(), name='tag'),  # noqa: E501
     path('recipes/category/<int:category_id>/', views.RecipeListViewCategory.as_view(), name='category'),  # noqa: E501
     path('recipes/<int:pk>/', views.RecipeDetailView.as_view(), name='recipe'),
     path(
@@ -18,4 +19,5 @@ urlpatterns = [
         views.RecipeDetailViewApi.as_view(),
         name='recipes_api_v1_detail'
     ),
+    path('recipes/theory/', views.theory, name='theory')
 ]
