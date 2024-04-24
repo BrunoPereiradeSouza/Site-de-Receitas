@@ -4,11 +4,10 @@
 </button>
 
 <div class="menu-container menu-hidden">
-    <button class="button-show-menu button-show-menu-visible">
+    <button class="button-close-menu button-close-menu-visible">
         <i class="fas fa-times-circle"></i>
         <span class="hidden-text">Close menu</span>
     </button>
-</div>
 
 <div class="menu-content">
     <nav class="menu-nav">
@@ -21,7 +20,7 @@
         {% else %}
             <a href="{% url 'authors:login' %}">Login</a>
             <a href="{% url 'authors:register' %}">Register</a>
-        {% endif %}
-            
+        {% endif %} 
     </nav>
+</div>
 </div>
