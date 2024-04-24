@@ -439,6 +439,11 @@ color: var(--color-debug-dark);
     list-style: none;
 }
 
+.hidden-text {
+    visibility: hidden;
+    display: none;
+}
+
 @media (max-width: 600px) {
     .main-content-list {
         grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
