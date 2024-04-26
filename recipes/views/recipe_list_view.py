@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.shortcuts import render
 from tag.models import Tag
 from django.utils import translation
+from django.utils.translation import gettext as _
 import os
 
 PER_PAGE = int(os.environ.get('PER_PAGE', 6))
@@ -92,8 +93,9 @@ class RecipeListViewCategory(RecipeListViewBase):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        category_translation = _('Category')
         page_title = f'{context.get("recipes")[0].category.name} ' \
-            '- Category | '
+                     f'- {category_translation} | '
 
         context.update(
             {
