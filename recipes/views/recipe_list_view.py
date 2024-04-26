@@ -7,6 +7,7 @@ from utils.pagination import make_pagination
 from django.db.models import Q
 from django.shortcuts import render
 from tag.models import Tag
+from django.utils import translation
 import os
 
 PER_PAGE = int(os.environ.get('PER_PAGE', 6))
@@ -46,7 +47,14 @@ class RecipeListViewBase(ListView):
         page_obj, pagination = make_pagination(
             context.get('recipes'), PER_PAGE, self.request
         )
-        context.update({'recipes': page_obj, 'pagination': pagination})
+        html_language = translation.get_language()
+        context.update(
+            {
+             'recipes': page_obj,
+             'pagination': pagination,
+             'html_language': html_language,
+            }
+        )
 
         return context
 
