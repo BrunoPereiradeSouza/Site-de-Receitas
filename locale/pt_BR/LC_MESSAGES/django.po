@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-26 20:06-0300\n"
+"POT-Creation-Date: 2024-04-26 20:39-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,18 +18,74 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: .\recipes\models.py:34
+msgid "Title"
+msgstr "Título"
+
+#: .\recipes\models.py:36
+msgid "Description"
+msgstr "Descrição"
+
+#: .\recipes\models.py:39
+msgid "Preparation time"
+msgstr "Tempo de preparo"
+
+#: .\recipes\models.py:41
+msgid "Preparation time unit"
+msgstr "Unidade de tempo de preparo"
+
+#: .\recipes\models.py:43 .\recipes\templates\recipes\partials\recipe.html:73
+msgid "Servings"
+msgstr "Porções"
+
+#: .\recipes\models.py:45
+msgid "Servings unit"
+msgstr "Unidade de Porções"
+
+#: .\recipes\models.py:47
+msgid "Preparation steps"
+msgstr "Etapas de preparo"
+
+#: .\recipes\models.py:49
+msgid "Preparation steps is html"
+msgstr "Etapas de preparo é html"
+
+#: .\recipes\models.py:51
+msgid "Created at"
+msgstr "Criado em"
+
+#: .\recipes\models.py:54
+msgid "Updated at"
+msgstr "Atualizado em"
+
+#: .\recipes\models.py:57
+msgid "Is published"
+msgstr "Está publicada"
+
+#: .\recipes\models.py:61
+msgid "Cover"
+msgstr "Imagem"
+
+#: .\recipes\models.py:64 .\recipes\views\recipe_list_view.py:96
+msgid "Category"
+msgstr "Categoria"
+
+#: .\recipes\models.py:68
+msgid "Author"
+msgstr "Autor"
+
+#: .\recipes\models.py:102
+msgid "Recipe"
+msgstr "Receita"
+
+#: .\recipes\models.py:103
+msgid "Recipes"
+msgstr "Receitas"
+
 #: .\recipes\templates\recipes\partials\recipe.html:64
 msgid "Preparation"
 msgstr "Preparo"
 
-#: .\recipes\templates\recipes\partials\recipe.html:73
-msgid "Servings"
-msgstr "Porções"
-
 #: .\recipes\templates\recipes\partials\recipe.html:85
 msgid "read more"
 msgstr "ler mais"
-
-#: .\recipes\views\recipe_list_view.py:96
-msgid "Category"
-msgstr "Categoria"
