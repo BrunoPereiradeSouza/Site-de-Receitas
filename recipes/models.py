@@ -5,6 +5,9 @@ from django.utils.text import slugify
 from django.db.models.functions import Concat
 from django.db.models import F, Value
 from tag.models import Tag
+import os
+from PIL import Image
+from django.conf import settings
 from collections import defaultdict
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -75,11 +78,35 @@ class Recipe(models.Model):
     def get_absolute_url(self):
         return reverse('recipes:recipe', args=(self.id,))
 
+    @staticmethod
+    def resize_image(image, new_width=800):
+        image_full_path = os.path.join(settings.MEDIA_ROOT, image.name)
+        image_pillow = Image.open(image_full_path)
+        original_width, original_height = image_pillow.size
+
+        if original_width < new_width:
+            image_pillow.close()
+            return
+
+        new_height = round((new_width * original_height) / original_width)
+
+        new_image = image_pillow.resize((new_width, new_height), Image.LANCZOS)
+        new_image.save(
+            image_full_path,
+            optimize=True,
+            quality=50,
+        )
+
     def save(self, *args, **kwargs):
         if not self.slug:
             slug = slugify(self.title)
             self.slug = slug
 
+        if self.cover:
+            try:
+                self.resize_image(self.cover, 800)
+            except FileNotFoundError:
+                ...
         return super().save()
 
     def clean(self, *args, **kwargs):
