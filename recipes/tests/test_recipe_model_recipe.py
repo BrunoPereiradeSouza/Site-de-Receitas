@@ -10,9 +10,9 @@ class RecipeModelTest(RecipeTestBase):
 
     def make_recipe_no_defaults(self):
         recipe = Recipe.objects.create(
-            title='Recipe Title',
+            title='Recipe Title New',
             description='Recipe Description',
-            slug='recipe-title',
+            slug='recipe-title-new',
             preparation_time='20',
             preparation_time_unit='Minutos',
             servings='10',

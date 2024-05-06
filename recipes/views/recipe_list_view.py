@@ -5,13 +5,21 @@ from django.http import JsonResponse
 from django.db.models.aggregates import Count
 from utils.pagination import make_pagination
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from tag.models import Tag
 from django.utils import translation
 from django.utils.translation import gettext as _
 import os
 
 PER_PAGE = int(os.environ.get('PER_PAGE', 6))
+
+
+def recipe(request, id):
+    recipe = get_object_or_404(Recipe, id=id, is_published=True)
+    return render(request, 'recipes/pages/recipe-view.html', context={
+        'recipe': recipe,
+        'is_detail_page': True,
+    })
 
 
 def theory(request, *asrgs, **kwargs):

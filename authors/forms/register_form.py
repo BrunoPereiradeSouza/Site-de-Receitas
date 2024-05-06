@@ -48,7 +48,8 @@ class RegisterForm(forms.ModelForm):
     email = forms.EmailField(
         widget=forms.EmailInput(),
         error_messages={
-            'required': 'E-mail must not be empty'
+            'required': 'E-mail must not be empty',
+            'invalid': 'Informe um endereço de email válido.'
         },
         help_text=('the e-mail must be valid.'),
         label='E-mail',
