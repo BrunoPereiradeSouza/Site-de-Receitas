@@ -28,3 +28,9 @@ class RecipeSerializer(serializers.Serializer):
 
     def get_preparation(self, recipe):
         return f'{recipe.preparation_time} {recipe.preparation_time_unit}'
+    tag_links = serializers.HyperlinkedRelatedField(
+        many=True,
+        source='tags',
+        queryset=Tag.objects.all(),
+        view_name='recipes:recipes_api_v2_tag'
+    )
