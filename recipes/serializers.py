@@ -24,7 +24,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     preparation = serializers.SerializerMethodField(read_only=True)
     category = serializers.StringRelatedField()
     tag_objects = TagSerializer(
-        many=True, source='tags'
+        many=True, source='tags', read_only=True
     )
     tag_links = serializers.HyperlinkedRelatedField(
         many=True,
