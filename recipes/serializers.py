@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from tag.models import Tag
-from collections import defaultdict
+from authors.validators import AuthorRecipeValidator
 from .models import Recipe
 
 
@@ -16,7 +16,9 @@ class RecipeSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'description', 'public',
             'preparation', 'category', 'author', 'tags',
-            'tag_objects', 'tag_links'
+            'tag_objects', 'tag_links', 'preparation_time',
+            'preparation_time_unit', 'servings', 'servings_unit',
+            'preparation_steps', 'cover'
         ]
 
     public = serializers.BooleanField(
@@ -38,23 +40,9 @@ class RecipeSerializer(serializers.ModelSerializer):
         return f'{recipe.preparation_time} {recipe.preparation_time_unit}'
 
     def validate(self, attrs):
-        title = attrs['title']
-        description = attrs['description']
-        my_errors = defaultdict(list)
-
-        if title == description:
-            my_errors['title'].append('cannot be equal to description')
-            my_errors['description'].append('cannot be equal to title')
-        if my_errors:
-            raise serializers.ValidationError(my_errors)
-
-        return super().validate(attrs)
-
-    def validate_title(self, value):
-        if len(value) < 5:
-            raise serializers.ValidationError('title must be greater than 5')
-        return value
-
-    def validate_description(self, value):
-        print(value)
-        return value
+        super_validate = super().validate(attrs)
+        AuthorRecipeValidator(
+            data=attrs,
+            ErrorClass=serializers.ValidationError
+            )
+        return super_validate

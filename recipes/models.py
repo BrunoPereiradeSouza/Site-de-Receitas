@@ -5,6 +5,8 @@ from django.utils.text import slugify
 from django.db.models.functions import Concat
 from django.db.models import F, Value
 from tag.models import Tag
+from random import SystemRandom
+import string
 import os
 from PIL import Image
 from django.conf import settings
@@ -100,8 +102,13 @@ class Recipe(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            slug = slugify(self.title)
-            self.slug = slug
+            rand_letters = ''.join(
+                SystemRandom().choices(
+                    string.ascii_letters + string.digits,
+                    k=5,
+                )
+            )
+            self.slug = slugify(f'{self.title}-{rand_letters}')
 
         saved = super().save()
 
