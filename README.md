@@ -25,3 +25,12 @@ Dentre eles:
 * Autenticação de usuários e criação de sistemas de login e logout;
 * Filtragem em consultas ao banco de dados;
 * Criação de funções(módulos) para reaproveitamento de código.
+
+Este projeto também possibilitou o aprendizado de Django Rest Framework para a criação de APIs REST.
+Conceitos aprendidos:
+* Function-Based-View com @api_view e Response do Django Rest Framework;
+* Mixins, Generic Views e Pagination no Django Rest Framework;
+* ViewSets e Routers;
+* Autenticação de usuários com JWT Token;
+* Permissões no Django Rest Framework;
+* Segurança da API no Django Rest Framework; 
